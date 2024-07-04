@@ -1,0 +1,69 @@
+Listado de rutas de carpetas
+El número de serie del volumen es 181F-6211
+D:\REPO\WEB\DEV\HOTEL PROJECTS\HOTEL-BACKEND\SRC
+¦   app.controller.spec.ts
+¦   app.controller.ts
+¦   app.module.ts
+¦   app.service.ts
+¦   folders.txt
+¦   main.ts
+¦   
++---booking
+¦   ¦   booking.controller.spec.ts
+¦   ¦   booking.controller.ts
+¦   ¦   booking.module.ts
+¦   ¦   booking.service.spec.ts
+¦   ¦   booking.service.ts
+¦   ¦   
+¦   +---dto
+¦   ¦       create-booking.dto.ts
+¦   ¦       update-booking.dto.ts
+¦   ¦       
+¦   +---entities
+¦           board_plan.entity.ts
+¦           booking.entity.ts
+¦           payment.entity.ts
+¦           
++---common
+¦   +---common
+¦       ¦   common.module.ts
+¦       ¦   
+¦       +---dtos
+¦               pagination.dto.ts
+¦               
++---entities
+¦       customer.entity.ts
+¦       
++---hotel
+¦   ¦   hotel.controller.spec.ts
+¦   ¦   hotel.controller.ts
+¦   ¦   hotel.module.ts
+¦   ¦   hotel.service.spec.ts
+¦   ¦   hotel.service.ts
+¦   ¦   
+¦   +---dto
+¦   ¦       create-hotel.dto.ts
+¦   ¦       update-hotel.dto.ts
+¦   ¦       
+¦   +---entities
+¦           hotel.entity.ts
+¦           hotel_feature.entity.ts
+¦           hotel_media.entity.ts
+¦           
++---room
+    ¦   room.controller.spec.ts
+    ¦   room.controller.ts
+    ¦   room.module.ts
+    ¦   room.service.spec.ts
+    ¦   room.service.ts
+    ¦   
+    +---dto
+    ¦       create-room.dto.ts
+    ¦       update-room.dto.ts
+    ¦       
+    +---entities
+            room.entity.ts
+            room_feature.entity.ts
+            room_media.entity.ts
+            room_type.entity.ts
+            

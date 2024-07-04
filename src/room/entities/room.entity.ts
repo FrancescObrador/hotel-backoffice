@@ -1,6 +1,8 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
-import { Booking, Hotel, RoomType } from ".";
+import { Hotel } from "src/hotel/entities/hotel.entity";
+import { RoomType } from "./room_type.entity";
+import { Booking } from "src/booking/entities/booking.entity";
 
 @Entity({name: 'room'})
 export class Room {
@@ -22,12 +24,12 @@ export class Room {
     number: number
 
     @ManyToOne(() => Hotel, hotel => hotel.rooms)
-    @JoinColumn({ name: 'hotel_id' }) 
-    hotel: Hotel;
+    @JoinColumn({ name: 'hotel_id'}) 
+    hotel: Hotel
 
     @ManyToOne(() => RoomType, roomType => roomType.rooms)
     @JoinColumn({ name: 'room_type_id' }) 
-    roomType: RoomType;
+    roomType: RoomType
 
     @OneToMany(() => Booking, booking => booking.room)
     bookings?: Booking[]

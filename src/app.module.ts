@@ -8,8 +8,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { CommonModule } from './common/common/common.module';
-import { HotelModule } from './hotel/hotel.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+
+import { BookingModule } from './booking/booking.module';
+import { HotelModule } from './hotel/hotel.module';
+import { RoomModule } from './room/room.module';
 
 @Module({
   imports: [
@@ -34,7 +37,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       rootPath: join(__dirname, '..', 'public'),
     }),
     CommonModule,
-    HotelModule
+    HotelModule,
+    RoomModule,
+    BookingModule
   ],
   controllers: [AppController],
   providers: [AppService],

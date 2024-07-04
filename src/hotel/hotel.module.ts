@@ -1,25 +1,19 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { HotelService } from './hotel.service';
 import { HotelController } from './hotel.controller';
+import { RoomModule } from 'src/room/room.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BoardPlan, Booking, Customer, Hotel, HotelFeature, HotelMedia, Payment, Room, RoomMedia, RoomType } from './entities';
+import { Hotel } from './entities/hotel.entity';
+import { HotelFeature } from './entities/hotel_feature.entity';
+import { HotelMedia } from './entities/hotel_media.entity';
 
 @Module({
+  imports: [
+    forwardRef(() => RoomModule),
+    TypeOrmModule.forFeature([Hotel, HotelFeature, HotelMedia]),
+  ],
   controllers: [HotelController],
   providers: [HotelService],
-  imports: [
-    TypeOrmModule.forFeature([
-      BoardPlan,
-      Booking,
-      Customer,
-      Hotel,
-      HotelFeature,
-      HotelMedia,
-      Payment,
-      Room,
-      RoomMedia,
-      RoomType,
-    ]),
-  ],
 })
-export class HotelModule {}
+export class HotelModule {
+}

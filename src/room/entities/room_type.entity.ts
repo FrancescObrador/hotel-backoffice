@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
-import { Hotel, Room } from ".";
+import { Hotel } from "src/hotel/entities/hotel.entity";
+import { Room } from "./room.entity";
 
 @Entity({name: 'room_type'})
 export class RoomType {
