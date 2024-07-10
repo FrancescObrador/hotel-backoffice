@@ -1,7 +1,8 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
-import { Room } from "src/room/entities/room.entity";
-import { HotelFeature } from "./hotel_feature.entity";
+import { Room } from "../../room/entities/room.entity";
+import { HotelFeature } from "./hotel-feature.entity";
+import { HotelMedia } from "./hotel-media.entity";
 
 @Entity({name: 'hotel'})
 export class Hotel {
@@ -12,21 +13,21 @@ export class Hotel {
         uniqueItems: true
     })
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @ApiProperty({
         example: 'Hotel Nirvana',
         description: 'Hotel name',
     })
     @Column('text')
-    name: string
+    name: string;
 
     @ApiProperty({
         example: '123 Main Street',
         description: 'Hotel address',
     })
     @Column('text')
-    address: string
+    address: string;
 
     @ApiProperty({
         example: '+34 123 456 789',
@@ -34,7 +35,7 @@ export class Hotel {
         uniqueItems: true
     })
     @Column('text')
-    phone : string
+    phone : string;
 
     @ApiProperty({
         example: 'nirvana@hotel.com',
@@ -44,14 +45,14 @@ export class Hotel {
     @Column('text',{
         unique: true
     })
-    email : string
+    email : string;
 
     @ApiProperty({
         example: 5,
         description: 'Hotel stars',
     })
     @Column('numeric')
-    stars: number
+    stars: number;
     
     @ManyToMany(() => HotelFeature, {eager: true})
     @JoinTable({name: 'hotel_feature_mapping',
@@ -64,12 +65,16 @@ export class Hotel {
             referencedColumnName: 'id'
         }
     })
-    features?: HotelFeature[]
+    features?: HotelFeature[];
+
+    @OneToMany(() => HotelMedia, media => media.hotel)
+    //@JoinColumn({ name: 'media_id' }) 
+    media?: HotelMedia[];
+
 
     @OneToMany(
         ()=>Room,
-        (room) => room.hotel,
-       // {eager: true}
+        (room) => room.hotel
     )
-    rooms?: Room[]
+    rooms?: Room[];
 }

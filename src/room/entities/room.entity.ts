@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
-import { Hotel } from "src/hotel/entities/hotel.entity";
+import { Hotel } from "../../hotel/entities/hotel.entity";
 import { RoomType } from "./room_type.entity";
-import { Booking } from "src/booking/entities/booking.entity";
+import { Booking } from "../../booking/entities/booking.entity";
 
 @Entity({name: 'room'})
 export class Room {
@@ -13,7 +13,7 @@ export class Room {
         uniqueItems: true
     })
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @ApiProperty({
         example: '1',
@@ -21,16 +21,16 @@ export class Room {
         uniqueItems: true
     })
     @Column('numeric')
-    number: number
+    number: number;
 
     @ManyToOne(() => Hotel, hotel => hotel.rooms)
     @JoinColumn({ name: 'hotel_id'}) 
-    hotel: Hotel
+    hotel: Hotel;
 
     @ManyToOne(() => RoomType, roomType => roomType.rooms)
     @JoinColumn({ name: 'room_type_id' }) 
-    roomType: RoomType
+    roomType: RoomType;
 
-    @OneToMany(() => Booking, booking => booking.room)
-    bookings?: Booking[]
+    @OneToMany(() => Booking, (bookings) => bookings.rooms)
+    bookings?: Booking[];
 } 

@@ -39,7 +39,7 @@ import { RoomModule } from './room/room.module';
     CommonModule,
     HotelModule,
     RoomModule,
-    BookingModule
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

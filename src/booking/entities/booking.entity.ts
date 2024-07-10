@@ -1,6 +1,6 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { ApiProperty } from "@nestjs/swagger";
-import { Room } from 'src/room/entities/room.entity';
+import { ApiProperty } from "@nestjs/swagger"
+import { Room } from '../../room/entities/room.entity'
 
 @Entity({name: 'booking'})
 export class Booking {
@@ -29,7 +29,7 @@ export class Booking {
 
     @ManyToOne(() => Room, room => room.bookings)
     @JoinColumn({ name: 'room_id' }) 
-    room: Room
+    rooms?: Room[]
 
     // @ManyToOne(
     //     ()=>BoardPlan,
