@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 import { Hotel } from "./hotel.entity";
 
@@ -19,5 +19,4 @@ export class HotelMedia {
     @ManyToOne(() => Hotel, hotel => hotel.rooms)
     @JoinColumn({ name: 'hotel_id'}) 
     hotel: Hotel
-    
 }

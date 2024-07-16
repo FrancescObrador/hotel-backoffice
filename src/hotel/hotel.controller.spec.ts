@@ -7,7 +7,7 @@ import { CreateHotelDto } from './dto/create-hotel.dto';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { PaginationDto } from '../common/common/dtos/pagination.dto';
 import { UpdateHotelDto } from './dto/update-hotel.dto';
-import { AddHotelFeatureDto } from './dto/add-hotel-feature.dto';
+import { AddHotelFeatureDto } from './dto/create-hotel-feature-mapping';
 import { CreateHotelMediaDto } from './dto/create-hotel-media.dto';
 import { HotelFeature } from './entities/hotel-feature.entity';
 import { HotelMedia } from './entities/hotel-media.entity';
@@ -17,6 +17,8 @@ class MockHotelRepository {}
 class MockHotelFeatureMappingRepository {}
 class MockHotelMediaRepository {}
 class MockRoomRepository {}
+class RoomFeatureMappingRepository {}
+class RoomMediaRepository {}
 
 // Mock data
 const mockHotels: Hotel[] = [
@@ -39,6 +41,9 @@ describe('HotelController', () => {
         { provide: 'HotelFeatureMappingRepository', useClass: MockHotelFeatureMappingRepository },
         { provide: 'HotelMediaRepository', useClass: MockHotelMediaRepository },
         { provide: 'RoomRepository', useClass: MockRoomRepository },
+        { provide: 'RoomFeatureMappingRepository', useClass: RoomFeatureMappingRepository },
+        { provide: 'RoomMediaRepository', useClass: RoomMediaRepository },
+        
       ],
     }).compile();
 
@@ -127,13 +132,13 @@ describe('HotelController', () => {
     const rooms = [{ id: 1, name: 'Room One' }, { id: 2, name: 'Room Two' }];
 
     jest.spyOn(hotelService, 'findOne').mockResolvedValue(mockHotels[0]);
-    jest.spyOn(roomService, 'findMany').mockResolvedValue(rooms);
+    jest.spyOn(roomService, 'findByHotel').mockResolvedValue(rooms);
 
     const result = await controller.getRooms(hotelId);
 
     expect(result).toEqual(rooms);
     expect(hotelService.findOne).toHaveBeenCalledWith(1);
-    expect(roomService.findMany).toHaveBeenCalledWith({ hotel: mockHotels[0] });
+    expect(roomService.findByHotel).toHaveBeenCalledWith(hotelId);
   });
 
   it('should return features for a hotel by ID', async () => {
@@ -150,12 +155,12 @@ describe('HotelController', () => {
   it('should add a feature to a hotel', async () => {
     const addFeatureDto: AddHotelFeatureDto = { id: 1, hotelId: 1, featureId: 1 };
 
-    jest.spyOn(hotelService, 'addFeature').mockResolvedValue({ success: true });
+    jest.spyOn(hotelService, 'addHotelFeature').mockResolvedValue({ success: true });
 
     const result = await controller.addFeatureToHotel(addFeatureDto);
 
     expect(result).toEqual({ success: true });
-    expect(hotelService.addFeature).toHaveBeenCalledWith(addFeatureDto);
+    expect(hotelService.addHotelFeature).toHaveBeenCalledWith(addFeatureDto);
   });
 
   it('should return media for a hotel by ID', async () => {

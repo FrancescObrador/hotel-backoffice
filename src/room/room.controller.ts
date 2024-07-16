@@ -2,10 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { RoomService } from './room.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
+import { AddRoomFeatureDto } from './dto/create-room-feature-mapping.dto';
+import { CreateRoomMediaDto } from './dto/create-room-media.dto';
 import { PaginationDto } from '../common/common/dtos/pagination.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UpdateResult } from 'typeorm';
 
-@ApiTags('Rooms')
+@ApiTags('Rooms (11/11)')
 @Controller('rooms')
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
@@ -27,42 +30,47 @@ export class RoomController {
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
-    return this.roomService.update(+id, updateRoomDto);
+    const updateResult: UpdateResult =  await this.roomService.update(+id, updateRoomDto);
+    return { success: updateResult.affected > 0}
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.roomService.remove(+id);
+  async delete(@Param('id') id: string) {
+    return this.roomService.delete(+id);
   }
-
 
   @Get(':id/features')
-  async getRoomFeature(){
-
+  async getRoomFeature(@Param('id') id: string){
+    return await this.roomService.getFeatures(+id);
   }
 
-  @Patch()
-  async addRoomFeature(){
-
+  @ApiOperation({description: "Adds an existing room feature to a room."})
+  @Post('addFeature')
+  async addFeatureToRoom(addRoomFeatureDto: AddRoomFeatureDto){
+    return await this.roomService.addFeature(addRoomFeatureDto);
   }
 
-  @Patch()
-  async removeRoomFeature(){
-
+  @ApiOperation({description: "Removes an existing room feature from a room."})
+  @Delete(':id/removeFeature/:id')
+  async removeRoomFeature(@Param('id') id: string, @Param('id') featureId: string){
+    return await this.roomService.removeRoomFeature(+id, +featureId);
   }
 
-  @Get()
-  async getRoomMedia(){
-
+  @ApiOperation({description: "Returns all the media from a room."})
+  @Get(':id/media')
+  async getRoomMedia(@Param('id') id: string){
+    return await this.roomService.getMedia(+id);
   }
 
-  @Post()
-  async createRoomMedia(){
-
+  @ApiOperation({description: "Creates and adds a new media to a room."})
+  @Post(':id/media')
+  async addMediaToRoom(createRoomMediaDto: CreateRoomMediaDto){
+    return await this.roomService.createRoomMedia(createRoomMediaDto)
   }
 
-  @Delete()
-  async removeRoomMedia(){
-
+  @ApiOperation({description: "Deletes a room media by it's id."})
+  @Delete(':id/media/:mediaId')
+  async removeRoomMedia(@Param('id') id: string, @Param('mediaId') mediaId: string){
+    return await this.roomService.removeMedia(+id, +mediaId)
   }
 }

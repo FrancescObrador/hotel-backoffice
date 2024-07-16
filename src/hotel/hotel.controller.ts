@@ -6,10 +6,10 @@ import { CreateHotelDto } from './dto/create-hotel.dto'
 import { UpdateHotelDto } from './dto/update-hotel.dto'
 import { PaginationDto } from '../common/common/dtos/pagination.dto'
 import { CreateHotelMediaDto } from './dto/create-hotel-media.dto'
-import { AddHotelFeatureDto } from './dto/add-hotel-feature.dto'
+import { AddHotelFeatureDto } from './dto/create-hotel-feature-mapping'
 import { InsertResult, DeleteResult, UpdateResult } from 'typeorm'
 
-@ApiTags('Hotels')
+@ApiTags('Hotels (12/12)')
 @Controller('hotels')
 export class HotelController {
   constructor(
@@ -54,7 +54,7 @@ export class HotelController {
   @Get(':id/rooms')
   async getRooms(@Param('id') id: string) {
     const hotel = await this.hotelService.findOne(+id);
-    return await this.roomService.findMany({hotel});
+    return await this.roomService.findByHotel(hotel.id);
   }
 
   @ApiOperation({description: "Returns the rooms for a hotel."})
@@ -64,9 +64,15 @@ export class HotelController {
   }
 
   @ApiOperation({description: "Adds an existing hotel feature to an hotel."})
-  @Post('addFeatureToHotel')
+  @Post('addFeature')
   async addFeatureToHotel(@Body() addHotelFeatureDto: AddHotelFeatureDto) {
-    return await this.hotelService.addFeature(addHotelFeatureDto);
+    return await this.hotelService.addHotelFeature(addHotelFeatureDto);
+  }
+
+  @ApiOperation({description: "Removes an existing hotel feature from an hotel."})
+  @Delete('removeFeature/:id')
+  async removeHotelFeature(@Param('id') id: string, @Param('id') featureId: string) {
+    return await this.hotelService.removeHotelFeature(+id, +featureId);
   }
 
   @ApiOperation({description: "Returns all the media from an hotel."})

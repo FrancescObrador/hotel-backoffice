@@ -3,6 +3,7 @@ import { RoomController } from './room.controller';
 import { RoomService } from './room.service';
 
 class MockRoomRepository {}
+class RoomFeatureMappingRepository {}
 
 describe('RoomController', () => {
   let controller: RoomController;
@@ -13,6 +14,8 @@ describe('RoomController', () => {
       providers: [
         RoomService,
         { provide: 'RoomRepository', useClass: MockRoomRepository },
+        { provide: 'RoomFeatureMappingRepository', useClass: RoomFeatureMappingRepository },
+        
       ],
     }).compile();
 
