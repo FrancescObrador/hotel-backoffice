@@ -6,6 +6,7 @@ import { RoomService } from './room.service';
 class MockRoomRepository {}
 class MockRoomFeatureMappingRepository {}
 class MockRoomMediaRepository {}
+class MockRoomTypeRepository {}
 
 describe('RoomController', () => {
   let controller: RoomController;
@@ -18,6 +19,7 @@ describe('RoomController', () => {
         { provide: 'RoomRepository', useClass: MockRoomRepository },
         { provide: 'RoomFeatureMappingRepository', useClass: MockRoomFeatureMappingRepository },
         { provide: 'RoomMediaRepository', useClass: MockRoomMediaRepository },
+        { provide: 'RoomTypeRepository', useClass: MockRoomTypeRepository },
         
       ],
     }).compile();

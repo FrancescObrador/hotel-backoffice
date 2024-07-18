@@ -5,6 +5,7 @@ import { RoomService } from './room.service';
 class MockRoomRepository {}
 class MockRoomMediaRepository {}
 class MockRoomFeatureMappingRepository {}
+class MockRoomTypeRepository {}
 
 describe('RoomService', () => {
   let service: RoomService;
@@ -16,6 +17,7 @@ describe('RoomService', () => {
         { provide: 'RoomRepository', useClass: MockRoomRepository },
         { provide: 'RoomMediaRepository', useClass: MockRoomMediaRepository },
         { provide: 'RoomFeatureMappingRepository', useClass: MockRoomFeatureMappingRepository },
+        { provide: 'RoomTypeRepository', useClass: MockRoomTypeRepository },
       ],
     }).compile();
 

@@ -50,7 +50,7 @@ export class RoomService {
     return room;
   }
 
-  async findByHotel(hotelId: number){
+  async findByHotel(hotelId: number): Promise<Room[]> {
     if(!hotelId){
       throw new NotFoundException(`Id ${hotelId} not valid`);
     }
