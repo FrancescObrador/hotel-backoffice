@@ -1,6 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
-import { Room } from "./room.entity";
 import { RoomType } from "./room-type.entity";
 
 @Entity({name: 'room_media'})
@@ -22,6 +21,7 @@ export class RoomMedia {
     @Column()
     url: string
 
-    @ManyToMany(() => RoomType, roomType => roomType.features)
+    @ManyToOne(() => RoomType, roomType => roomType.media)
+    @JoinColumn({ name: 'room_type_id' })
     roomType: RoomType[];
 }

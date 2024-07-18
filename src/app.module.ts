@@ -13,6 +13,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BookingModule } from './booking/booking.module';
 import { HotelModule } from './hotel/hotel.module';
 import { RoomModule } from './room/room.module';
+import { HotelFeatureModule } from './hotel-feature/hotel-feature.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { RoomModule } from './room/room.module';
     HotelModule,
     RoomModule,
     BookingModule,
+    HotelFeatureModule,
   ],
   controllers: [AppController],
   providers: [AppService],

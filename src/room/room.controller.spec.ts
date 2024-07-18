@@ -2,8 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RoomController } from './room.controller';
 import { RoomService } from './room.service';
 
+// Mock classes for dependencies
 class MockRoomRepository {}
-class RoomFeatureMappingRepository {}
+class MockRoomFeatureMappingRepository {}
+class MockRoomMediaRepository {}
 
 describe('RoomController', () => {
   let controller: RoomController;
@@ -14,7 +16,8 @@ describe('RoomController', () => {
       providers: [
         RoomService,
         { provide: 'RoomRepository', useClass: MockRoomRepository },
-        { provide: 'RoomFeatureMappingRepository', useClass: RoomFeatureMappingRepository },
+        { provide: 'RoomFeatureMappingRepository', useClass: MockRoomFeatureMappingRepository },
+        { provide: 'RoomMediaRepository', useClass: MockRoomMediaRepository },
         
       ],
     }).compile();

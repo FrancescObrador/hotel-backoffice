@@ -16,7 +16,10 @@ export class HotelMedia {
     @Column()
     url: string
 
-    @ManyToOne(() => Hotel, hotel => hotel.rooms)
+    @Column({name: 'hotel_id'})
+    hotelId: number
+
+    @ManyToOne(() => Hotel, hotel => hotel.media)
     @JoinColumn({ name: 'hotel_id'}) 
     hotel: Hotel
 }

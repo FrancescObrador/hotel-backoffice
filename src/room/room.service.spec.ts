@@ -1,10 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RoomService } from './room.service';
 
-class MockRoomRepository{}
-class RoomMediaRepository{}
+// Mock classes for dependencies
+class MockRoomRepository {}
+class MockRoomMediaRepository {}
+class MockRoomFeatureMappingRepository {}
 
-xdescribe('RoomService', () => {
+describe('RoomService', () => {
   let service: RoomService;
 
   beforeEach(async () => {
@@ -12,7 +14,8 @@ xdescribe('RoomService', () => {
       providers: [
         RoomService,
         { provide: 'RoomRepository', useClass: MockRoomRepository },
-        { provide: 'RoomMediaRepository', useClass: RoomMediaRepository },
+        { provide: 'RoomMediaRepository', useClass: MockRoomMediaRepository },
+        { provide: 'RoomFeatureMappingRepository', useClass: MockRoomFeatureMappingRepository },
       ],
     }).compile();
 

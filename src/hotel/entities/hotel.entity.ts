@@ -9,7 +9,7 @@ export class Hotel {
 
     @ApiProperty({
         example: '1',
-        description: 'Product ID',
+        description: 'Hotel ID',
         uniqueItems: true
     })
     @PrimaryGeneratedColumn()
@@ -67,8 +67,11 @@ export class Hotel {
     })
     features?: HotelFeature[];
 
-    @OneToMany(() => HotelMedia, media => media.hotel)
-    //@JoinColumn({ name: 'media_id' }) 
+    @OneToMany(
+        () => HotelMedia, 
+        media => media.hotel, 
+        {eager: true}
+    )
     media?: HotelMedia[];
 
 

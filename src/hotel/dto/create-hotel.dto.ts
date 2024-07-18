@@ -1,7 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min, IsArray, ArrayMinSize } from 'class-validator';
+import { PrimaryGeneratedColumn } from 'typeorm';
 
 export class CreateHotelDto {
+
     @ApiProperty({
         example: 'Hotel Nirvana',
         description: 'Hotel name',

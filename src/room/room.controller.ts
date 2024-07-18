@@ -13,32 +13,38 @@ import { UpdateResult } from 'typeorm';
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
+  @ApiOperation({description: "Creates a new room."})
   @Post()
   async create(@Body() createRoomDto: CreateRoomDto) {
     return this.roomService.create(createRoomDto);
   }
 
+  @ApiOperation({description: "Returns all the rooms."})
   @Get()
   async findAll(@Query() query: PaginationDto) {
     return this.roomService.findAll(query);
   }
 
+  @ApiOperation({description: "Return one room based on it's id."})
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.roomService.findOne(+id);
   }
 
+  @ApiOperation({description: "Update the room."})
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
     const updateResult: UpdateResult =  await this.roomService.update(+id, updateRoomDto);
     return { success: updateResult.affected > 0}
   }
 
+  @ApiOperation({description: "Delete the room."})
   @Delete(':id')
   async delete(@Param('id') id: string) {
     return this.roomService.delete(+id);
   }
 
+  @ApiOperation({description: "Returns all the room features."})
   @Get(':id/features')
   async getRoomFeature(@Param('id') id: string){
     return await this.roomService.getFeatures(+id);

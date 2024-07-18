@@ -62,7 +62,7 @@ export class RoomType {
     })
     features?: RoomFeature[];
 
-    @OneToMany(() => RoomMedia, media => media.roomType)
+    @OneToMany(() => RoomMedia, media => media.roomType, { eager: true })
     media?: RoomMedia[];
   
     @OneToMany(type => Room, room => room.roomType)

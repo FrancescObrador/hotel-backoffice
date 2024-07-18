@@ -3,18 +3,24 @@ import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Booking } from './entities/booking.entity';
+import { InsertResult } from 'typeorm';
 
 @Injectable()
 export class BookingService {
 
-  constructor(@InjectRepository(Booking) private readonly bookingRepo) {}
+  constructor(
+    @InjectRepository(Booking) private readonly bookingRepo
+  ) {}
 
-  create(createBookingDto: CreateBookingDto) {
-    return 'This action adds a new booking';
+  async create(createBookingDto: CreateBookingDto) {
+    const { checkInDate, checkOutDate } = createBookingDto;
+    const booking: Booking = this.bookingRepo.create(createBookingDto);
+    const insertResult: InsertResult = await this.bookingRepo.insert(booking);
+    return insertResult;
   }
 
   async findAll() {
-    return await this.bookingRepo.find({relations: ['room']})
+    return await this.bookingRepo.find({relations: ['rooms']})
   }
 
   findOne(id: number) {
