@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" class="navbar">
+    <span class="logo" routerLink="/">LOGO</span>
+    <!-- Add more navbar items here if needed -->
+  </mat-toolbar>
+  
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened class="sidenav">
+      <mat-nav-list>
+        <mat-list-item routerLink="/hotels" routerLinkActive="active">Hotels</mat-list-item>
+        <!-- Add more navigation items here -->
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content class="content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
+  <mat-toolbar color="primary" class="footer">
+    © 2024 Francesc Obrador. All rights reserved.
+  </mat-toolbar>
+  

@@ -1,0 +1,57 @@
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-start;
+    padding: 0 10px;
+  }
+  
+  .logo {
+    cursor: pointer;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+  }
+  
+  /* Main Container */
+  .sidenav-container {
+    margin-top: 4rem; /* Adjust for navbar height */
+    height: calc(100vh - 128px); /* Adjust for navbar and footer height */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Sidenav */
+  .sidenav {
+    width: 10rem;
+  }
+  
+  .mat-sidenav-container {
+    display: flex;
+  }
+  
+  /* Content */
+  .content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    height: 100vh;
+  }
+  
+  /* Footer */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    text-align: center;
+  }
+  

@@ -1,0 +1,43 @@
+<div>
+  <h1>{{ isEdit ? 'Edit Hotel' : 'Create Hotel' }}</h1>
+  <form [formGroup]="hotelForm" class="form">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="name.hasError('required')">Name is required</mat-error>
+      <mat-error *ngIf="name.hasError('minlength')">Name must be at least 3 characters long</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+      <mat-error *ngIf="getControlName('email').hasError('required')">Email is required</mat-error>
+      <mat-error *ngIf="getControlName('email').hasError('email')">Email must be valid</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Phone number</mat-label>
+      <input matInput formControlName="phone">
+      <mat-error *ngIf="getControlName('phone').hasError('required')">Phone number is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address">
+      <mat-error *ngIf="getControlName('address').hasError('required')">Address is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Stars</mat-label>
+      <input type="number" min="1" max="5" matInput formControlName="stars">
+      <mat-error *ngIf="getControlName('stars').hasError('required')">Stars are required</mat-error>
+      <mat-error *ngIf="getControlName('stars').hasError('min') || getControlName('stars').hasError('max')">Stars must be between 1 and 5</mat-error>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+      <button mat-raised-button color="secondary" (click)="reset()">Reset</button>
+      <button mat-raised-button color="warn" [routerLink]="['/hotels']">Cancel</button>
+    </div>
+  </form>
+</div>

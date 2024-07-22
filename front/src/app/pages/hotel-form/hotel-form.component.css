@@ -1,0 +1,13 @@
+
+.actions {
+    display: flex; 
+    align-items: baseline; 
+    justify-content: space-evenly;
+    gap: 1rem;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
