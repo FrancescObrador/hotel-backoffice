@@ -3,3 +3,8 @@ export interface HotelFeature {
     name:        string;
     description: string;
 }
+
+export interface HotelFeaturesResponse {
+    count:  number;
+    results: HotelFeature[];
+}

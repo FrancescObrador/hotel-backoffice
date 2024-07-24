@@ -26,7 +26,9 @@ import { MatDialogActions, MatDialogContent } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { HotelFeatureListComponent } from './pages/hotel-feature-list/hotel-feature-list.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     HotelDetailComponent,
     HotelFormComponent,
     LayoutPageComponent,
-    HotelEditComponent
+    HotelEditComponent,
+    HotelFeatureListComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSortModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

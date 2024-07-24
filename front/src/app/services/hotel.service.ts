@@ -5,7 +5,6 @@ import { Hotel, HotelsPaginationBody, HotelsResponse } from '../components/inter
 import { Room } from '../components/interfaces/room.interface';
 import { HotelFeature } from '../components/interfaces/hotel-feature.interface';
 import { HotelMedia } from '../components/interfaces/hotel-media.interface';
-//import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +16,9 @@ export class HotelService {
   constructor(private http: HttpClient) {}
 
   getAllHotels(params: HotelsPaginationBody): Observable<HotelsResponse> {
-    console.log(params)
     const httpParams = new HttpParams()
     .set('page', params.page)
     .set('limit', params.limit);
-
-    console.log(httpParams)
 
     return this.http.get<HotelsResponse>(this.apiUrl, { params: httpParams });
   }
@@ -55,19 +51,19 @@ export class HotelService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
   
-  addFeatureToHotel(hotelId: number, feature: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/addFeature`, { hotelId, ...feature });
+  addFeatureToHotel(hotelId: number, featureId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/addFeature`, { hotelId, featureId });
   }
 
-  addMediaToHotel(hotelId: number, media: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${hotelId}/media`, media);
+  addMediaToHotel(hotelId: number, mediaUrl: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${hotelId}/media`, mediaUrl);
   }
 
   removeHotelFeature(hotelId: number, featureId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/removeFeature/${hotelId}/${featureId}`);
+    return this.http.delete(`${this.apiUrl}/${hotelId}/removeFeature/${featureId}`);
   }
 
   deleteHotelMedia(hotelId: number, mediaId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${hotelId}/media/${mediaId}`);
+    return this.http.delete(`${this.apiUrl}/${hotelId}/removeMedia/${mediaId}`);
   }
 }

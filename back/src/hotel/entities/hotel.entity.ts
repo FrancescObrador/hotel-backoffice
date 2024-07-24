@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 import { Room } from "../../room/entities/room.entity";
 import { HotelFeature } from "./hotel-feature.entity";
@@ -54,7 +54,9 @@ export class Hotel {
     @Column('numeric')
     stars: number;
     
-    @ManyToMany(() => HotelFeature, {eager: true})
+    @ManyToMany(
+        () => HotelFeature
+    )
     @JoinTable({name: 'hotel_feature_mapping',
         joinColumn: {
             name: 'hotel_id',
@@ -70,7 +72,6 @@ export class Hotel {
     @OneToMany(
         () => HotelMedia, 
         media => media.hotel, 
-        {eager: true}
     )
     media?: HotelMedia[];
 

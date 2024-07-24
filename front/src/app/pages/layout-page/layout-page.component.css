@@ -1,5 +1,5 @@
 /* Navbar */
-.navbar {
+  .navbar {
     position: fixed;
     top: 0;
     left: 0;
@@ -20,8 +20,8 @@
   
   /* Main Container */
   .sidenav-container {
-    margin-top: 4rem; /* Adjust for navbar height */
-    height: calc(100vh - 128px); /* Adjust for navbar and footer height */
+    margin-top: 4rem; 
+    height: calc(100vh - 128px);
     display: flex;
     flex-direction: column;
   }
@@ -54,4 +54,7 @@
     z-index: 1000;
     text-align: center;
   }
-  
+
+  .active{
+    background-color: #3f51b549;
+  }

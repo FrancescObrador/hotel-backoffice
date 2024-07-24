@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { HotelService } from '../../services/hotel.service';
 import { Hotel, HotelsPaginationBody } from '../../components/interfaces/hotel.interface';
 import { MatSort } from '@angular/material/sort';
@@ -22,6 +20,8 @@ export class HotelListComponent implements OnInit {
   length = 0;
   pageIndex = 0;
 
+  loadingData = true;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -35,14 +35,14 @@ export class HotelListComponent implements OnInit {
   }
 
   loadHotels(params: HotelsPaginationBody = {page: 0, limit: 10}): void {
-    
+    this.loadingData = true;
     this.hotelService.getAllHotels(params).subscribe({
-      next: (response) => {
-        console.log(response.data)
-        this.dataSource.data = response.data;
-        this.length = response.total;
+      next: (response) =>{
+        this.dataSource.data = response.results;
+        this.length = response.count;
         this.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.loadingData = false;
       },
       error: (error) => {
         console.error('Error loading hotels:', error);

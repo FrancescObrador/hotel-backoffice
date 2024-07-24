@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min, IsArray, ArrayMinSize } from 'class-validator';
-import { PrimaryGeneratedColumn } from 'typeorm';
+import { IsEmail, IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
 
 export class CreateHotelDto {
 
@@ -46,14 +45,4 @@ export class CreateHotelDto {
     @Min(1)
     @Max(5)
     stars: number
-
-    @ApiProperty({
-        type: [Number],
-        example: [1, 2, 3],
-        description: 'List of feature IDs',
-        required: false,
-    })
-    @IsOptional()
-    @IsArray()
-    features?: number[]
 }

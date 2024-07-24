@@ -9,51 +9,39 @@ import { Hotel } from './entities/hotel.entity';
 import { HotelFeature } from './entities/hotel-feature.entity';
 import { HotelMedia } from './entities/hotel-media.entity';
 import { HotelFeatureMapping } from './entities/hotel-feature-mapping.entitiy';
-import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
+import { DeepPartial, DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { RoomMedia } from 'src/room/entities/room-media.entity';
+import { GetResponseDto } from 'src/common/common/dtos/response.dto';
 
 @Injectable()
 export class HotelService {
  
   constructor(
-    @InjectRepository(Hotel) private readonly hotelRepo,
-    @InjectRepository(HotelFeatureMapping) private readonly hotelFeatureMappingRepo,
-    @InjectRepository(HotelMedia) private readonly hotelMediaRepo,
+    @InjectRepository(Hotel) private readonly hotelRepo: Repository<Hotel>,
+    @InjectRepository(HotelFeatureMapping) private readonly hotelFeatureMappingRepo: Repository<HotelFeatureMapping>,
+    @InjectRepository(HotelMedia) private readonly hotelMediaRepo: Repository<HotelMedia>,
   ) {}
 
-  async create(createHotelDto: CreateHotelDto): Promise<InsertResult> {
-    const {name, address} = createHotelDto;
-    const existingHotel: boolean = await this.hotelRepo.exists({ where: { name, address } });
-
-    if (existingHotel) {
-      throw new Error('This hotel already exist.');
-    }
-
-    const newHotel: Hotel = this.hotelRepo.create(createHotelDto);
-    return await this.hotelRepo.insert(newHotel);
-  }
-  
-  async createHotelMedia(id: number, createHotelMedia: CreateHotelMediaDto): Promise<InsertResult> {
-    let newHotelMedia: HotelMedia = await this.hotelMediaRepo.create(createHotelMedia);
-    newHotelMedia.hotelId = id;
-    return await this.hotelMediaRepo.insert(newHotelMedia);
-  }
-
-  async findAll(pagination: PaginationDto) {
+  async findAll(pagination: PaginationDto): Promise<GetResponseDto<Hotel>> {
     const skip = pagination.page * pagination.limit;
+    
     const hotels: Hotel[] = await this.hotelRepo.find({
       skip: skip, 
       take: pagination.limit
     });
 
-    const total = await this.hotelRepo.count();
+    const count = await this.hotelRepo.count();
 
-    return { data: hotels, total}
+    return {count, results: hotels}
   
   }
 
   async findOne(id: number): Promise<Hotel> {
-    const hotel = await this.hotelRepo.findOneBy({id})
+    const hotel = await this.hotelRepo.findOne({
+      where: { id},
+      relations: ['features', 'media', 'rooms']
+    });
+
     if(!hotel) {
       throw new NotFoundException(`Hotel with id ${id} not found`);
     }
@@ -68,12 +56,46 @@ export class HotelService {
     return hotel.features;
   }
 
-  async addHotelFeature(addHotelFeatureDto: AddHotelFeatureDto){
-    const { hotelId, featureId } = addHotelFeatureDto;
+  async getMedia(id: number): Promise<HotelMedia[]> {
+    const hotel: Hotel = await this.hotelRepo.findOne({ where: {id}, relations: ['media']});
+    if(!hotel.media){
+      throw new NotFoundException(`Hotel ${id} do not have media available`);
+    }
+    return hotel.media;
+  }
 
-    const mappingExists: boolean = await this.hotelFeatureMappingRepo.exists(
-      { hotelId, featureId }
-    );
+  async create(createHotelDto: CreateHotelDto) {
+    const {name, address} = createHotelDto;
+    const existingHotel: boolean = await this.hotelRepo.exists({ where: { name, address } });
+
+    if (existingHotel) {
+      throw new Error('This hotel already exist.');
+    }
+
+    const model: DeepPartial<Hotel> = createHotelDto;
+
+    const newHotel: Hotel = this.hotelRepo.create(model);
+    const insertResult: InsertResult = await this.hotelRepo.insert(newHotel);
+
+    return newHotel;
+  }
+
+  async createHotelMedia(id: number, createHotelMedia: CreateHotelMediaDto): Promise<InsertResult> {
+    const model: DeepPartial<HotelMedia> = createHotelMedia;
+    model.hotelId = id;
+    
+    const newHotelMedia: HotelMedia = this.hotelMediaRepo.create(model);
+    const insertResult: InsertResult = await this.hotelMediaRepo.insert(newHotelMedia);
+
+    return insertResult;
+  }
+
+  async createHotelFeature(hotelId: number,addHotelFeatureDto: AddHotelFeatureDto){
+    const { featureId } = addHotelFeatureDto;
+
+    const mappingExists: boolean = await this.hotelFeatureMappingRepo.exists({
+      where: { hotelId, featureId }
+    });
 
     if (mappingExists) {
       throw new Error('This feature is already added to the hotel.');
@@ -85,7 +107,27 @@ export class HotelService {
     return insertResult;
   }
 
-  async removeHotelFeature(hotelId: number, featureId: number): Promise<DeleteResult> {
+  async update(id: number, updateHotelDto: UpdateHotelDto): Promise<UpdateResult> {
+    if(!id){
+      throw new NotFoundException(`Id ${id} not valid`);
+    }
+    
+    const hotel = await this.findOne(id);
+    if (!hotel) {
+      throw new NotFoundException(`Hotel with id ${id} not found`);
+    }
+    
+    return await this.hotelRepo.update({id}, updateHotelDto);
+  }
+  
+  async delete(id: number): Promise<DeleteResult> {
+    if(!id){
+      throw new NotFoundException(`Id ${id} not valid`);
+    }
+    return await this.hotelRepo.delete(id);
+  }
+
+  async deleteHotelFeature(hotelId: number, featureId: number): Promise<DeleteResult> {
     if(!hotelId){
       throw new NotFoundException(`Id ${hotelId} not valid`);
     }
@@ -100,39 +142,14 @@ export class HotelService {
     return await this.hotelFeatureMappingRepo.delete(hotelFeatureMapping);
   }
 
-  async getMedia(id: number): Promise<HotelMedia[]> {
-    const hotel: Hotel = await this.hotelRepo.findOne({ where: {id}, relations: ['media']});
-    if(!hotel.media){
-      throw new NotFoundException(`Hotel ${id} do not have media available`);
-    }
-    return hotel.media;
-  }
-
-  async update(id: number, updateHotelDto: UpdateHotelDto): Promise<UpdateResult> {
-    if(!id){
-      throw new NotFoundException(`Id ${id} not valid`);
-    }
-
-    const hotel = await this.findOne(id);
-    if (!hotel) {
-      throw new NotFoundException(`Hotel with id ${id} not found`);
-    }
-
-    return await this.hotelRepo.update({id}, updateHotelDto);
-  }
-
-  async delete(id: number): Promise<DeleteResult> {
-    if(!id){
-      throw new NotFoundException(`Id ${id} not valid`);
-    }
-    return await this.hotelRepo.delete(id);
-  }
-
-  async removeMedia(hotelId: number, mediaId: number){
-    const media: RoomMedia = await this.hotelMediaRepo.exists({ where: { id: mediaId, hotel: { id: hotelId } } });
+ 
+  async deleteMedia(hotelId: number, mediaId: number){
+    const media: HotelMedia = await this.hotelMediaRepo.findOneBy({ id: mediaId, hotel: { id: hotelId } });
+   
     if (!media) {
       throw new NotFoundException(`Media with id ${mediaId} at hotel with id ${hotelId} not found`);
     }
-    return await this.hotelMediaRepo.remove(media);
+    const deleteResult: DeleteResult = await this.hotelMediaRepo.delete(media);
+    return deleteResult;
   }
 }

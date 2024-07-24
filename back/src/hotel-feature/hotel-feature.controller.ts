@@ -5,26 +5,32 @@ import { UpdateHotelFeatureDto } from './dto/update-hotel-feature.dto';
 import { PaginationDto } from '../common/common/dtos/pagination.dto';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { ApiTags } from '@nestjs/swagger';
+import { HotelFeature } from './entities/hotel-feature.entity';
 
 @ApiTags('Hotel Features (5/5)')
 @Controller('hotel-feature')
 export class HotelFeatureController {
-  constructor(private readonly hotelFeatureService: HotelFeatureService) {}
+  constructor(
+    private readonly hotelFeatureService: HotelFeatureService
+  ) {}
+
+  
+  @Get()
+  async findAll(@Query() query: PaginationDto) {
+    const data = await this.hotelFeatureService.findAll(query);
+    return data;
+  }
+  
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    const hotelFeature: HotelFeature = await this.hotelFeatureService.findOne(+id);
+    return hotelFeature;
+  }
 
   @Post()
   async create(@Body() createHotelFeatureDto: CreateHotelFeatureDto) {
     const insertResult: InsertResult = await this.hotelFeatureService.create(createHotelFeatureDto);
     return {success: insertResult.identifiers.length > 0};
-  }
-
-  @Get()
-  async findAll(@Query() query: PaginationDto) {
-    return this.hotelFeatureService.findAll(query);
-  }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.hotelFeatureService.findOne(+id);
   }
 
   @Patch(':id')

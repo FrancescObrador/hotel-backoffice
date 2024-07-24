@@ -13,8 +13,8 @@ export interface Hotel {
 }
 
 export interface HotelsResponse {
-    data: Hotel[];
-    total:  number;
+    count:  number;
+    results: Hotel[];
 }
 
 export interface HotelsPaginationBody{

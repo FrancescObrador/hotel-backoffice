@@ -62,13 +62,14 @@ describe('HotelController', () => {
 
   it('Should create a new valid hotel', async () => {
     const newHotel: CreateHotelDto = { name: 'Hotel Two', address: 'Location Two', phone: '456', email: 'hotel2@hotel.com', stars: 5 };
-    const insertResult: InsertResult = new InsertResult();
-    insertResult.identifiers.push({})
-    jest.spyOn(hotelService, 'create').mockResolvedValue(insertResult);
+    
+    const hotelResp: Hotel = {...newHotel, id: 1};
+
+    jest.spyOn(hotelService, 'create').mockResolvedValue(hotelResp);
 
     const result = await controller.create(newHotel);
 
-    expect(result).toEqual({success: true});
+    expect(result).toEqual(hotelResp);
   });
 
   it('should throw an error when creating a hotel with invalid data', async () => {
@@ -86,7 +87,7 @@ describe('HotelController', () => {
 
     const result = await controller.findAll(pagination);
 
-    expect(result).toEqual({ data: mockHotels, total: mockHotels.length });
+    expect(result).toEqual({ results: mockHotels, count: mockHotels.length });
   });
 
   it('Should return one hotel given an id', async () => {
@@ -160,17 +161,19 @@ describe('HotelController', () => {
   });
 
   it('should add a feature to a hotel', async () => {
-    const addFeatureDto: AddHotelFeatureDto = { hotelId: 1, featureId: 1 };
+    
+    const hotelId = '1';
+    const addFeatureDto: AddHotelFeatureDto = { featureId: 1 };
 
     let mockInsertResult: InsertResult = new InsertResult();
     mockInsertResult.identifiers.push({})
 
-    jest.spyOn(hotelService, 'addHotelFeature').mockResolvedValue(mockInsertResult)
+    jest.spyOn(hotelService, 'createHotelFeature').mockResolvedValue(mockInsertResult)
 
-    const result = await controller.addFeatureToHotel(addFeatureDto);
+    const result = await controller.addFeatureToHotel(hotelId, addFeatureDto);
 
     expect(result).toEqual({ success: true });
-    expect(hotelService.addHotelFeature).toHaveBeenCalledWith(addFeatureDto);
+    expect(hotelService.createHotelFeature).toHaveBeenCalledWith(addFeatureDto);
   });
 
   it('should return media for a hotel by ID', async () => {
@@ -209,11 +212,11 @@ describe('HotelController', () => {
     let mockDeleteResult: DeleteResult = new DeleteResult();
     mockDeleteResult.affected = 1;
 
-    jest.spyOn(hotelService, 'removeMedia').mockResolvedValue(mockDeleteResult);
+    jest.spyOn(hotelService, 'deleteMedia').mockResolvedValue(mockDeleteResult);
 
     const result = await controller.deleteMedia(hotelId, mediaId);
 
     expect(result).toEqual({ success: true });
-    expect(hotelService.removeMedia).toHaveBeenCalledWith(1, 2);
+    expect(hotelService.deleteMedia).toHaveBeenCalledWith(1, 2);
   });
 });

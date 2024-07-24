@@ -9,7 +9,7 @@
 </p>
     
 ## Description
-
+Hotels backoffice built with:
 - Frontend: Angular + Angular Material
 - Backend: NestJs + TypeORM + Jest
 - DB: PostgreSQL
@@ -22,6 +22,8 @@ $ npm install
 
 ## Running the backend app
 
+First open Docker Desktop
+
 ```bash
 # run database
 docker compose up -d
@@ -30,6 +32,8 @@ docker compose up -d
 ```bash
 # development
 $ npm run start
+
+or
 
 # watch mode
 $ npm run start:dev
@@ -42,10 +46,16 @@ $ npm run start:dev
 $ ng serve -o
 ```
 
-
 ## Test the backend app
 
 ```bash
 # unit tests
 $ npm run test
+```
+
+or 
+
+```bash
+# unit tests watch mode
+$ npm run test:watch
 ```

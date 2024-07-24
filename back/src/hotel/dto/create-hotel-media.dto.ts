@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsUrl } from 'class-validator';
-import { PrimaryGeneratedColumn } from 'typeorm';
+import { IsNotEmpty, IsUrl } from 'class-validator';
 
 export class CreateHotelMediaDto {
   

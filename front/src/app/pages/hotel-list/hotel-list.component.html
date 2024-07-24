@@ -1,4 +1,4 @@
-<mat-card class="hotel-list-card">
+<mat-card class="list-card">
   <mat-card-header>
     <mat-card-title>List of hotels</mat-card-title>
   </mat-card-header>
@@ -50,8 +50,12 @@
       </table>
     </div>
   </mat-card-content>
-
-  <mat-card-footer>
+  
+  <mat-card-footer class="card-footer">
+    <div>
+      <!-- Assuming Angular or another framework handles this part -->
+      <mat-progress-bar mode="indeterminate" *ngIf="loadingData"></mat-progress-bar>
+    </div>
     <mat-paginator
       (page)="onPaginateChange($event)"
       [length]="length"

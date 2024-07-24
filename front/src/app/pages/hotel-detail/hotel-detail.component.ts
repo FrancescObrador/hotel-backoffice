@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Hotel } from '../../components/interfaces/hotel.interface';
-import { HotelMedia } from '../../components/interfaces/hotel-media.interface';
-import { HotelFeature } from '../../components/interfaces/hotel-feature.interface';
 import { HotelService } from '../../services/hotel.service';
 
 
@@ -14,10 +12,10 @@ import { HotelService } from '../../services/hotel.service';
 })
 export class HotelDetailComponent implements OnInit {
   hotel: Hotel | undefined;
-  media: HotelMedia[] = [];
-  features: HotelFeature[] = [];
   stars: string = '⭐️⭐️⭐️⭐️⭐️';
   selectedTabIndex: number = 0;
+  imagesLoadedCount: number = 0;
+  loadingData: boolean = true;
 
   constructor(
     private route: ActivatedRoute, 
@@ -30,37 +28,27 @@ export class HotelDetailComponent implements OnInit {
   }
 
   loadHotelDetails(id: number): void {
+    this.loadingData = true;
     this.hotelService.getHotelById(id).subscribe({
       next: (hotel) => {
         this.hotel = hotel;
-      this.stars  = '⭐️'.repeat(hotel.stars);
+        this.stars  = '⭐️'.repeat(hotel.stars);
+
+        if(this.hotel.media.length == 0) {
+          this.loadingData = false;
+        }
       },
       error: (error) => {
         console.error('Error loading hotel:', error);
       }
     });
-
-    this.hotelService.getHotelMedia(id).subscribe({
-      next: (media) => {
-        this.media = media;
-      },
-      error: (error) => {
-        console.error('Error loading media:', error);
-      }
-    });
-
-    this.hotelService.getHotelFeatures(id).subscribe({
-      next: (features) => {
-        this.features = features;
-      },
-      error: (error) => {
-        console.error('Error loading features:', error);
-      }
-    });
   }
 
-  onTabChange(event: MatTabChangeEvent): void {
-    this.selectedTabIndex = event.index;
+  onImageLoad(){
+    this.imagesLoadedCount++;
+    if (this.imagesLoadedCount === this.hotel?.media.length) {
+      this.loadingData = false;
+    }
   }
 
   deleteHotel(id: number): void {
