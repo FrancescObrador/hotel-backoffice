@@ -82,7 +82,7 @@ describe('HotelController', () => {
   });
 
   it('should return an array of hotels', async () => {
-    jest.spyOn(hotelService, 'findAll').mockResolvedValue({ data: mockHotels, total: mockHotels.length });
+    jest.spyOn(hotelService, 'findAll').mockResolvedValue({ results: mockHotels, count: mockHotels.length });
     const pagination = new PaginationDto();
 
     const result = await controller.findAll(pagination);
@@ -173,7 +173,7 @@ describe('HotelController', () => {
     const result = await controller.addFeatureToHotel(hotelId, addFeatureDto);
 
     expect(result).toEqual({ success: true });
-    expect(hotelService.createHotelFeature).toHaveBeenCalledWith(addFeatureDto);
+    expect(hotelService.createHotelFeature).toHaveBeenCalledWith(1, addFeatureDto);
   });
 
   it('should return media for a hotel by ID', async () => {

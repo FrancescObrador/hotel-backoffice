@@ -14,6 +14,7 @@ import { BookingModule } from './booking/booking.module';
 import { HotelModule } from './hotel/hotel.module';
 import { RoomModule } from './room/room.module';
 import { HotelFeatureModule } from './hotel-feature/hotel-feature.module';
+import { RoomFeatureModule } from './room-feature/room-feature.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { HotelFeatureModule } from './hotel-feature/hotel-feature.module';
     RoomModule,
     BookingModule,
     HotelFeatureModule,
+    RoomFeatureModule,
   ],
   controllers: [AppController],
   providers: [AppService],

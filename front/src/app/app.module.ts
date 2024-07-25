@@ -29,6 +29,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { HotelFeatureListComponent } from './pages/hotel-feature-list/hotel-feature-list.component';
+import { RoomFeatureListComponent } from './pages/room-feature-list/room-feature-list.component';
+import { BookingListComponent } from './pages/booking-list/booking-list.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { HotelFeatureListComponent } from './pages/hotel-feature-list/hotel-feat
     HotelFormComponent,
     LayoutPageComponent,
     HotelEditComponent,
-    HotelFeatureListComponent
+    HotelFeatureListComponent,
+    RoomFeatureListComponent,
+    BookingListComponent
   ],
   imports: [
     BrowserModule,

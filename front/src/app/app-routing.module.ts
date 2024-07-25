@@ -7,6 +7,8 @@ import { HotelDetailComponent } from './pages/hotel-detail/hotel-detail.componen
 import { HotelListComponent } from './pages/hotel-list/hotel-list.component';
 import { HotelEditComponent } from './pages/hotel-edit/hotel-edit.component';
 import { HotelFeatureListComponent } from './pages/hotel-feature-list/hotel-feature-list.component';
+import { RoomFeatureListComponent } from './pages/room-feature-list/room-feature-list.component';
+import { BookingListComponent } from './pages/booking-list/booking-list.component';
 
 const routes: Routes = [
   {
@@ -15,6 +17,8 @@ const routes: Routes = [
       { path: 'hotels/:id', component: HotelDetailComponent },
       { path: 'hotels/edit/:id', component: HotelEditComponent },
       { path: 'hotel-features', component: HotelFeatureListComponent },
+      {path: 'room-features', component: RoomFeatureListComponent },
+      { path: 'bookings', component: BookingListComponent },
       { path: '', redirectTo: '/hotels', pathMatch: 'full' }
     ]
   }

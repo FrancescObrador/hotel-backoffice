@@ -16,21 +16,22 @@ export class HotelFeatureService {
 
   
   async findAll(pagination: PaginationDto): Promise<GetResponseDto<HotelFeature>> {
+    const skip = pagination.page * pagination.limit;
     const hotelFeatures: HotelFeature[] = await this.hotelFeatureRepo.find({
-      skip: pagination.skip, 
+      skip: skip, 
       take: pagination.limit
     });
 
     const count = await this.hotelFeatureRepo.count();
 
-    return {count, results: hotelFeatures};
+    return { count, results: hotelFeatures };
   }
   
   async findOne(id: number): Promise<HotelFeature> {
     const hotelFeature = await this.hotelFeatureRepo.findOneBy({id});
     
     if(!hotelFeature) {
-      throw new NotFoundException(`Hotel with id ${id} not found`);
+      throw new NotFoundException(`Hotel feature with id ${id} not found`);
     }
     
     return hotelFeature;
@@ -55,7 +56,7 @@ export class HotelFeatureService {
 
     const hotelFeature = await this.findOne(id);
     if (!hotelFeature) {
-      throw new NotFoundException(`Hotel with id ${id} not found`);
+      throw new NotFoundException(`Hotel feature with id ${id} not found`);
     }
 
     return await this.hotelFeatureRepo.update({id}, updateHotelFeatureDto);

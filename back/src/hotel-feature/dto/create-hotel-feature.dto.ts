@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsNotEmpty, IsString } from "class-validator"
-import { PrimaryGeneratedColumn } from "typeorm"
 
 export class CreateHotelFeatureDto {
     @ApiProperty({

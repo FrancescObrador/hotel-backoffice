@@ -10,7 +10,7 @@ describe('HotelFeatureService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         HotelFeatureService,
-          { provide: 'HotelFeatureRepository', useClass: MockHotelFeatureRepository },
+        { provide: 'HotelFeatureRepository', useClass: MockHotelFeatureRepository },
       ],
     }).compile();
 

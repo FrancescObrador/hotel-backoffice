@@ -6,14 +6,14 @@ import { IsInt, IsOptional, Min } from "class-validator"
 export class PaginationDto{
     
     @ApiProperty({
-        default: 1,
+        default: 0,
         description: 'Page to show'
     })
     @IsOptional()
     @Type(() => Number)
     @IsInt()
     @Min(0)
-    page?: number = 1;
+    page?: number = 0;
 
     @ApiProperty({
         default: 10,

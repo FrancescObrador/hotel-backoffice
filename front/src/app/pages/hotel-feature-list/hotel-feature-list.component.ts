@@ -33,7 +33,6 @@ export class HotelFeatureListComponent implements OnInit {
     this.loadingData = true;
     this.hotelFeaturesService.getHotelFeatures().subscribe({
       next: (response) =>{
-        console.log(response);
         this.dataSource.data = response.results;
         this.dataSource.sort = this.sort;
         this.loadingData = false;

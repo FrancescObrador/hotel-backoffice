@@ -10,7 +10,6 @@ import { HotelFeature } from './entities/hotel-feature.entity';
 import { HotelMedia } from './entities/hotel-media.entity';
 import { HotelFeatureMapping } from './entities/hotel-feature-mapping.entitiy';
 import { DeepPartial, DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
-import { RoomMedia } from 'src/room/entities/room-media.entity';
 import { GetResponseDto } from 'src/common/common/dtos/response.dto';
 
 @Injectable()
