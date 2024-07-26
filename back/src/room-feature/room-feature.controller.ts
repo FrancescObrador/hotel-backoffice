@@ -3,9 +3,9 @@ import { RoomFeatureService } from './room-feature.service';
 import { CreateRoomFeatureDto } from './dto/create-room-feature.dto';
 import { UpdateRoomFeatureDto } from './dto/update-room-feature.dto';
 import { PaginationDto } from '../common/common/dtos/pagination.dto';
-import { RoomFeature } from './entities/room-feature.entity';
-import { GetResponseDto } from '../common/common/dtos/response.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Room Features (5/5)')
 @Controller('room-feature')
 export class RoomFeatureController {
   constructor(

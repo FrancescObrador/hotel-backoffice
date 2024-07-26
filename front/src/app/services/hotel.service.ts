@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Hotel, HotelsPaginationBody, HotelsResponse } from '../components/interfaces/hotel.interface';
-import { Room } from '../components/interfaces/room.interface';
-import { HotelFeature } from '../components/interfaces/hotel-feature.interface';
-import { HotelMedia } from '../components/interfaces/hotel-media.interface';
+import { Hotel, HotelsPaginationBody, HotelsResponse } from '../interfaces/hotel.interface';
+import { Room } from '../interfaces/room.interface';
+import { HotelFeature } from '../interfaces/hotel-feature.interface';
+import { HotelMedia } from '../interfaces/hotel-media.interface';
 
 @Injectable({
   providedIn: 'root'

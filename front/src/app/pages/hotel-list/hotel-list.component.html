@@ -52,10 +52,6 @@
   </mat-card-content>
   
   <mat-card-footer class="card-footer">
-    <div>
-      <!-- Assuming Angular or another framework handles this part -->
-      <mat-progress-bar mode="indeterminate" *ngIf="loadingData"></mat-progress-bar>
-    </div>
     <mat-paginator
       (page)="onPaginateChange($event)"
       [length]="length"
@@ -65,4 +61,7 @@
       aria-label="Select page">
     </mat-paginator>
   </mat-card-footer>
+  <div style="height: 4px;">
+    <mat-progress-bar mode="indeterminate" *ngIf="loadingData"></mat-progress-bar>
+  </div>
 </mat-card>

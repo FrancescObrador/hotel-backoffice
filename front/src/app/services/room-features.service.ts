@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HotelFeaturesResponse } from '../components/interfaces/hotel-feature.interface';
+import { HotelFeaturesResponse } from '../interfaces/hotel-feature.interface';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

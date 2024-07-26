@@ -13,12 +13,6 @@ import { UpdateResult } from 'typeorm';
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
-  @ApiOperation({description: "Creates a new room."})
-  @Post()
-  async create(@Body() createRoomDto: CreateRoomDto) {
-    return this.roomService.create(createRoomDto);
-  }
-
   @ApiOperation({description: "Returns all the rooms."})
   @Get()
   async findAll(@Query() query: PaginationDto) {
@@ -29,6 +23,36 @@ export class RoomController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.roomService.findOne(+id);
+  }
+
+  @ApiOperation({description: "Returns all the room features."})
+  @Get(':id/features')
+  async getRoomFeature(@Param('id') id: string){
+    return await this.roomService.getFeatures(+id);
+  }
+
+  @ApiOperation({description: "Returns all the media from a room."})
+  @Get(':id/media')
+  async getRoomMedia(@Param('id') id: string){
+    return await this.roomService.getMedia(+id);
+  }
+
+  @ApiOperation({description: "Creates a new room."})
+  @Post()
+  async create(@Body() createRoomDto: CreateRoomDto) {
+    return this.roomService.create(createRoomDto);
+  }
+
+  @ApiOperation({description: "Adds an existing room feature to a room."})
+  @Post('feature')
+  async addFeatureToRoom(addRoomFeatureDto: AddRoomFeatureDto){
+    return await this.roomService.addFeature(addRoomFeatureDto);
+  }
+  
+  @ApiOperation({description: "Creates and adds a new media to a room."})
+  @Post(':id/media')
+  async addMediaToRoom(createRoomMediaDto: CreateRoomMediaDto){
+    return await this.roomService.createRoomMedia(createRoomMediaDto)
   }
 
   @ApiOperation({description: "Update the room."})
@@ -44,34 +68,10 @@ export class RoomController {
     return this.roomService.delete(+id);
   }
 
-  @ApiOperation({description: "Returns all the room features."})
-  @Get(':id/features')
-  async getRoomFeature(@Param('id') id: string){
-    return await this.roomService.getFeatures(+id);
-  }
-
-  @ApiOperation({description: "Adds an existing room feature to a room."})
-  @Post('addFeature')
-  async addFeatureToRoom(addRoomFeatureDto: AddRoomFeatureDto){
-    return await this.roomService.addFeature(addRoomFeatureDto);
-  }
-
   @ApiOperation({description: "Removes an existing room feature from a room."})
-  @Delete(':id/removeFeature/:id')
+  @Delete(':id/feature/:id')
   async removeRoomFeature(@Param('id') id: string, @Param('id') featureId: string){
     return await this.roomService.removeRoomFeature(+id, +featureId);
-  }
-
-  @ApiOperation({description: "Returns all the media from a room."})
-  @Get(':id/media')
-  async getRoomMedia(@Param('id') id: string){
-    return await this.roomService.getMedia(+id);
-  }
-
-  @ApiOperation({description: "Creates and adds a new media to a room."})
-  @Post(':id/media')
-  async addMediaToRoom(createRoomMediaDto: CreateRoomMediaDto){
-    return await this.roomService.createRoomMedia(createRoomMediaDto)
   }
 
   @ApiOperation({description: "Deletes a room media by it's id."})

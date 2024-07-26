@@ -4,6 +4,7 @@ import { UpdateBookingDto } from './dto/update-booking.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Booking } from './entities/booking.entity';
 import { InsertResult } from 'typeorm';
+import { PaginationDto } from '../common/common/dtos/pagination.dto';
 
 @Injectable()
 export class BookingService {
@@ -13,14 +14,20 @@ export class BookingService {
   ) {}
 
   async create(createBookingDto: CreateBookingDto) {
-    const { checkInDate, checkOutDate } = createBookingDto;
     const booking: Booking = this.bookingRepo.create(createBookingDto);
     const insertResult: InsertResult = await this.bookingRepo.insert(booking);
     return insertResult;
   }
 
-  async findAll() {
-    return await this.bookingRepo.find({relations: ['rooms']})
+  async findAll(pagination: PaginationDto) {
+    const bookings: Booking[] = await this.bookingRepo.find({
+      relations: ['rooms'], 
+      skip: pagination.skip, 
+      take: pagination.limit
+    });
+
+    const count = await this.bookingRepo.count();
+    return {count, results: bookings};
   }
 
   findOne(id: number) {

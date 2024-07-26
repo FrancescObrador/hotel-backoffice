@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Hotel, HotelsPaginationBody } from '../../components/interfaces/hotel.interface';
+import { Hotel, HotelsPaginationBody } from '../../interfaces/hotel.interface';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { HotelFeaturesService } from '../../services/hotel-features.service';
-import { HotelFeature } from '../../components/interfaces/hotel-feature.interface';
+import { HotelFeature } from '../../interfaces/hotel-feature.interface';
 
 @Component({
   selector: 'app-hotel-list',
@@ -16,6 +16,11 @@ export class HotelFeatureListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
   dataSource = new MatTableDataSource<HotelFeature>([]);
   
+  pageSizeOptions = [5, 10, 25, 50, 100];
+  pageSize = this.pageSizeOptions[1];
+  length = 0;
+  pageIndex = 0;
+
   loadingData = true;
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -34,6 +39,7 @@ export class HotelFeatureListComponent implements OnInit {
     this.hotelFeaturesService.getHotelFeatures().subscribe({
       next: (response) =>{
         this.dataSource.data = response.results;
+        this.length = response.count;
         this.dataSource.sort = this.sort;
         this.loadingData = false;
       },

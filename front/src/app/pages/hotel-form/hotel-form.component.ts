@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotelService } from '../../services/hotel.service';
-import { Hotel } from '../../components/interfaces/hotel.interface';
+import { Hotel } from '../../interfaces/hotel.interface';
 
 @Component({
   selector: 'app-hotel-form',

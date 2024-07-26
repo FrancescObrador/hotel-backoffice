@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { HotelService } from '../../services/hotel.service';
-import { Hotel, HotelsPaginationBody } from '../../components/interfaces/hotel.interface';
+import { Hotel, HotelsPaginationBody } from '../../interfaces/hotel.interface';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Hotel } from '../../components/interfaces/hotel.interface';
+import { Hotel } from '../../interfaces/hotel.interface';
 import { HotelService } from '../../services/hotel.service';
 
 

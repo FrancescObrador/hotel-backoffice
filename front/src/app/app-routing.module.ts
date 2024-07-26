@@ -17,8 +17,9 @@ const routes: Routes = [
       { path: 'hotels/:id', component: HotelDetailComponent },
       { path: 'hotels/edit/:id', component: HotelEditComponent },
       { path: 'hotel-features', component: HotelFeatureListComponent },
-      {path: 'room-features', component: RoomFeatureListComponent },
+      { path: 'room-features', component: RoomFeatureListComponent },
       { path: 'bookings', component: BookingListComponent },
+
       { path: '', redirectTo: '/hotels', pathMatch: 'full' }
     ]
   }
