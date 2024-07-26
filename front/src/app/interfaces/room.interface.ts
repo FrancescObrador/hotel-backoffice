@@ -7,3 +7,8 @@ export interface Room {
     hotel:    Hotel;
     roomType: RoomType;
 }
+
+export interface RoomsResponse {
+    count:  number;
+    results: Room[];
+}

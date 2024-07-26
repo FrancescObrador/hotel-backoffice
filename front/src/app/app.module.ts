@@ -31,6 +31,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { HotelFeatureListComponent } from './pages/hotel-feature-list/hotel-feature-list.component';
 import { RoomFeatureListComponent } from './pages/room-feature-list/room-feature-list.component';
 import { BookingListComponent } from './pages/booking-list/booking-list.component';
+import { RoomsListComponent } from './pages/rooms-list/rooms-list.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { BookingListComponent } from './pages/booking-list/booking-list.componen
     HotelEditComponent,
     HotelFeatureListComponent,
     RoomFeatureListComponent,
-    BookingListComponent
+    BookingListComponent,
+    RoomsListComponent
   ],
   imports: [
     BrowserModule,

@@ -6,7 +6,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { InsertResult } from 'typeorm';
 import { PaginationDto } from '../common/common/dtos/pagination.dto';
 
-@ApiTags('Bookings (1/5)')
+@ApiTags('Bookings (5/5)')
 @Controller('booking')
 export class BookingController {
   constructor(
@@ -36,6 +36,6 @@ export class BookingController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return this.bookingService.remove(+id);
+    return this.bookingService.delete(+id);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -31,15 +31,33 @@ export class BookingService {
     return {count, results: bookings};
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} booking`;
+  async findOne(id: number) {
+    const booking = await this.bookingRepo.findOneBy({id});
+    
+    if(!booking) {
+      throw new NotFoundException(`Hotel feature with id ${id} not found`);
+    }
+    
+    return booking;
   }
 
-  update(id: number, updateBookingDto: UpdateBookingDto) {
-    return `This action updates a #${id} booking`;
+  async update(id: number, updateBookingDto: UpdateBookingDto) {
+    if(!id){
+      throw new NotFoundException(`Id ${id} not valid`);
+    }
+
+    const booking = await this.findOne(id);
+    if (!booking) {
+      throw new NotFoundException(`Hotel feature with id ${id} not found`);
+    }
+
+    return await this.bookingRepo.update({id}, updateBookingDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} booking`;
+  async delete(id: number) {
+    if(!id){
+      throw new NotFoundException(`Id ${id} not valid`);
+    }
+    return await this.bookingRepo.delete(id);
   }
 }

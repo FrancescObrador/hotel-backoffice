@@ -10,6 +10,7 @@ import { DeleteResult, UpdateResult, Repository, InsertResult } from 'typeorm';
 import { CreateRoomMediaDto } from './dto/create-room-media.dto';
 import { RoomFeatureMapping } from './entities/room-feature-mapping.entity';
 import { RoomType } from './entities/room-type.entity';
+import { GetResponseDto } from '../common/common/dtos/response.dto';
 
 @Injectable()
 export class RoomService {
@@ -36,14 +37,16 @@ export class RoomService {
     return insertResult;
   }
 
-  async findAll(pagination: PaginationDto): Promise<Room[]> {
+  async findAll(pagination: PaginationDto): Promise<GetResponseDto<Room>> {
     const skip = pagination.page * pagination.limit;
     const rooms: Room[] = await this.roomRepo.find({
       relations: ['hotel', 'roomType'], 
       skip: skip, 
       take: pagination.limit
     });
-    return rooms;
+
+    const count = await this.roomRepo.count();
+    return {count, results: rooms};
   }
 
   async findOne(id: number): Promise<Room> {

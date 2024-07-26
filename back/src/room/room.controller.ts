@@ -21,7 +21,7 @@ export class RoomController {
 
   @ApiOperation({description: "Return one room based on it's id."})
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string){
     return this.roomService.findOne(+id);
   }
 
@@ -44,7 +44,7 @@ export class RoomController {
   }
 
   @ApiOperation({description: "Adds an existing room feature to a room."})
-  @Post('feature')
+  @Post(':id/feature')
   async addFeatureToRoom(addRoomFeatureDto: AddRoomFeatureDto){
     return await this.roomService.addFeature(addRoomFeatureDto);
   }

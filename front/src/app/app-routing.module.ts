@@ -9,6 +9,7 @@ import { HotelEditComponent } from './pages/hotel-edit/hotel-edit.component';
 import { HotelFeatureListComponent } from './pages/hotel-feature-list/hotel-feature-list.component';
 import { RoomFeatureListComponent } from './pages/room-feature-list/room-feature-list.component';
 import { BookingListComponent } from './pages/booking-list/booking-list.component';
+import { RoomsListComponent } from './pages/rooms-list/rooms-list.component';
 
 const routes: Routes = [
   {
@@ -19,7 +20,7 @@ const routes: Routes = [
       { path: 'hotel-features', component: HotelFeatureListComponent },
       { path: 'room-features', component: RoomFeatureListComponent },
       { path: 'bookings', component: BookingListComponent },
-
+      { path: 'rooms-list', component: RoomsListComponent },
       { path: '', redirectTo: '/hotels', pathMatch: 'full' }
     ]
   }
