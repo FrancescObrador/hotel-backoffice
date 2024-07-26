@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { HotelService } from '../../services/hotel.service';
-import { Hotel, HotelsPaginationBody } from '../../interfaces/hotel.interface';
+import { Hotel, PaginationBody } from '../../interfaces/hotel.interface';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 
@@ -34,7 +34,7 @@ export class HotelListComponent implements OnInit {
     this.loadHotels();
   }
 
-  loadHotels(params: HotelsPaginationBody = {page: 0, limit: 10}): void {
+  loadHotels(params: PaginationBody = {page: 0, limit: 10}): void {
     this.loadingData = true;
     this.hotelService.getAllHotels(params).subscribe({
       next: (response) =>{

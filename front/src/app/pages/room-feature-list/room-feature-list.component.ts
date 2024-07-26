@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { HotelFeature } from '../../interfaces/hotel-feature.interface';
 import { RoomFeaturesService } from '../../services/room-features.service';
+import { PaginationBody } from '../../interfaces/hotel.interface';
 
 @Component({
   selector: 'app-room-feature-list',
@@ -33,9 +34,9 @@ export class RoomFeatureListComponent implements OnInit {
     this.loadRoomFeatures();
   }
 
-  loadRoomFeatures(): void {
+  loadRoomFeatures(params: PaginationBody = {page: 0, limit: 10}): void {
     this.loadingData = true;
-    this.roomFeatureService.getRoomFeatures().subscribe({
+    this.roomFeatureService.getRoomFeatures(params).subscribe({
       next: (response) =>{
         this.dataSource.data = response.results;
         this.length = response.count;
@@ -59,6 +60,8 @@ export class RoomFeatureListComponent implements OnInit {
       page: event.pageIndex,
       limit: event.pageSize
     };
+
+    this.loadRoomFeatures(params);
   }
   
 }

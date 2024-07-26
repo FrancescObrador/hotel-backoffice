@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Hotel } from '../../interfaces/hotel.interface';
+import { Hotel, PaginationBody } from '../../interfaces/hotel.interface';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { BookingService } from '../../services/booking.service';
@@ -35,9 +35,9 @@ export class BookingListComponent implements OnInit {
     this.loadBookings();
   }
 
-  loadBookings(): void {
+  loadBookings(params: PaginationBody = {page: 0, limit: 10}): void {
     this.loadingData = true;
-    this.bookingService.getAllBookings().subscribe({
+    this.bookingService.getAllBookings(params).subscribe({
       next: (response) =>{
         this.dataSource.data = response.results;
         this.length = response.count;
@@ -61,7 +61,7 @@ export class BookingListComponent implements OnInit {
       limit: event.pageSize
     };
 
-    this.loadBookings();
+    this.loadBookings(params);
   }
   
 }

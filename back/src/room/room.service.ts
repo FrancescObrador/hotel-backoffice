@@ -37,9 +37,10 @@ export class RoomService {
   }
 
   async findAll(pagination: PaginationDto): Promise<Room[]> {
-      const rooms: Room[] = await this.roomRepo.find({
+    const skip = pagination.page * pagination.limit;
+    const rooms: Room[] = await this.roomRepo.find({
       relations: ['hotel', 'roomType'], 
-      skip: pagination.skip, 
+      skip: skip, 
       take: pagination.limit
     });
     return rooms;

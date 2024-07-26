@@ -20,9 +20,10 @@ export class BookingService {
   }
 
   async findAll(pagination: PaginationDto) {
+    const skip = pagination.page * pagination.limit;
     const bookings: Booking[] = await this.bookingRepo.find({
       relations: ['rooms'], 
-      skip: pagination.skip, 
+      skip: skip, 
       take: pagination.limit
     });
 

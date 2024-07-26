@@ -17,7 +17,7 @@ export interface HotelsResponse {
     results: Hotel[];
 }
 
-export interface HotelsPaginationBody{
+export interface PaginationBody{
     page: number;
     limit: number;
 }

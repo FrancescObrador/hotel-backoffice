@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HotelFeaturesResponse } from '../interfaces/hotel-feature.interface';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { PaginationBody } from '../interfaces/hotel.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,11 @@ export class RoomFeaturesService {
 
   private apiUrl = `http://localhost:3000/api/v1/room-feature`;
 
-  getRoomFeatures(): Observable<HotelFeaturesResponse> {
-    return this.http.get<HotelFeaturesResponse>(this.apiUrl);
+  getRoomFeatures(params: PaginationBody): Observable<HotelFeaturesResponse> {
+    const httpParams = new HttpParams()
+    .set('page', params.page)
+    .set('limit', params.limit);
+    return this.http.get<HotelFeaturesResponse>(this.apiUrl, { params: httpParams });
   }
 
   deleteRoomFeature(id: number) {

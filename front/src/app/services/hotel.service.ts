@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Hotel, HotelsPaginationBody, HotelsResponse } from '../interfaces/hotel.interface';
+import { Hotel, HotelsResponse, PaginationBody } from '../interfaces/hotel.interface';
 import { Room } from '../interfaces/room.interface';
 import { HotelFeature } from '../interfaces/hotel-feature.interface';
 import { HotelMedia } from '../interfaces/hotel-media.interface';
@@ -15,7 +15,7 @@ export class HotelService {
 
   constructor(private http: HttpClient) {}
 
-  getAllHotels(params: HotelsPaginationBody): Observable<HotelsResponse> {
+  getAllHotels(params: PaginationBody): Observable<HotelsResponse> {
     const httpParams = new HttpParams()
     .set('page', params.page)
     .set('limit', params.limit);

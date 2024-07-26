@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Hotel, HotelsPaginationBody } from '../../interfaces/hotel.interface';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { HotelFeaturesService } from '../../services/hotel-features.service';
 import { HotelFeature } from '../../interfaces/hotel-feature.interface';
+import { PaginationBody } from '../../interfaces/hotel.interface';
 
 @Component({
   selector: 'app-hotel-list',
@@ -34,9 +34,9 @@ export class HotelFeatureListComponent implements OnInit {
     this.loadHotelFeatures();
   }
 
-  loadHotelFeatures(): void {
+  loadHotelFeatures(params: PaginationBody = {page: 0, limit: 10}): void {
     this.loadingData = true;
-    this.hotelFeaturesService.getHotelFeatures().subscribe({
+    this.hotelFeaturesService.getHotelFeatures(params).subscribe({
       next: (response) =>{
         this.dataSource.data = response.results;
         this.length = response.count;
@@ -60,6 +60,8 @@ export class HotelFeatureListComponent implements OnInit {
       page: event.pageIndex,
       limit: event.pageSize
     };
+
+    this.loadHotelFeatures(params);
   }
   
 }
