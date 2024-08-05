@@ -56,7 +56,7 @@ export class RoomFeatureService {
       throw new NotFoundException(`Room feature with id ${id} not found`);
     }
 
-    return await this.roomFeatureRepo.update({id}, updateRoomFeatureDto);
+    return await this.roomFeatureRepo.update(roomFeature, updateRoomFeatureDto);
   }
 
   async remove(id: number) {

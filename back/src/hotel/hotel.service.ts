@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateHotelDto } from './dto/create-hotel.dto';
 import { UpdateHotelDto } from './dto/update-hotel.dto';
@@ -22,29 +22,36 @@ export class HotelService {
   ) {}
 
   async findAll(pagination: PaginationDto): Promise<GetResponseDto<Hotel>> {
-    const skip = pagination.page * pagination.limit;
+    try {
+        const skip = pagination.page * pagination.limit;
+        
+        const hotels: Hotel[] = await this.hotelRepo.find({
+          skip: skip, 
+          take: pagination.limit
+        });
+        const count = await this.hotelRepo.count();
     
-    const hotels: Hotel[] = await this.hotelRepo.find({
-      skip: skip, 
-      take: pagination.limit
-    });
-
-    const count = await this.hotelRepo.count();
-
-    return {count, results: hotels}
-  
+        return {count, results: hotels}
+    }
+    catch(error){
+       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async findOne(id: number): Promise<Hotel> {
-    const hotel = await this.hotelRepo.findOne({
-      where: { id},
-      relations: ['features', 'media', 'rooms']
-    });
-
-    if(!hotel) {
-      throw new NotFoundException(`Hotel with id ${id} not found`);
+    try {
+      const hotel = await this.hotelRepo.findOne({
+        where: { id},
+        relations: ['features', 'media', 'rooms']
+      });
+  
+      if(!hotel) {
+        throw new NotFoundException(`Hotel with id ${id} not found`);
+      }
+      return hotel;
+    } catch(error){
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return hotel;
   }
 
   async getFeatures(id: number): Promise<HotelFeature[]>{
@@ -63,7 +70,7 @@ export class HotelService {
     return hotel.media;
   }
 
-  async create(createHotelDto: CreateHotelDto) {
+  async create(createHotelDto: CreateHotelDto): Promise<Hotel> {
     const {name, address} = createHotelDto;
     const existingHotel: boolean = await this.hotelRepo.exists({ where: { name, address } });
 
@@ -89,7 +96,7 @@ export class HotelService {
     return insertResult;
   }
 
-  async createHotelFeature(hotelId: number,addHotelFeatureDto: AddHotelFeatureDto){
+  async createHotelFeature(hotelId: number,addHotelFeatureDto: AddHotelFeatureDto): Promise<InsertResult>{
     const { featureId } = addHotelFeatureDto;
 
     const mappingExists: boolean = await this.hotelFeatureMappingRepo.exists({
@@ -116,7 +123,7 @@ export class HotelService {
       throw new NotFoundException(`Hotel with id ${id} not found`);
     }
     
-    return await this.hotelRepo.update({id}, updateHotelDto);
+    return await this.hotelRepo.update(hotel, updateHotelDto);
   }
   
   async delete(id: number): Promise<DeleteResult> {
@@ -142,7 +149,7 @@ export class HotelService {
   }
 
  
-  async deleteMedia(hotelId: number, mediaId: number){
+  async deleteMedia(hotelId: number, mediaId: number): Promise<DeleteResult> {
     const media: HotelMedia = await this.hotelMediaRepo.findOneBy({ id: mediaId, hotel: { id: hotelId } });
    
     if (!media) {

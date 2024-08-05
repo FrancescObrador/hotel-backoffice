@@ -77,13 +77,13 @@ export class RoomService {
       throw new NotFoundException(`Id ${id} not valid`);
     }
     
-    const hotel = await this.findOne(id);
+    const room = await this.findOne(id);
     
-    if (!hotel) {
+    if (!room) {
       throw new NotFoundException(`Hotel with id ${id} not found`);
     }
 
-    const updateResult: UpdateResult = await this.roomRepo.update({id}, updateRoomDto);
+    const updateResult: UpdateResult = await this.roomRepo.update(room, updateRoomDto);
     return updateResult;
   }
 

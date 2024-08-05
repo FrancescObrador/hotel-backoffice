@@ -59,7 +59,7 @@ export class HotelFeatureService {
       throw new NotFoundException(`Hotel feature with id ${id} not found`);
     }
 
-    return await this.hotelFeatureRepo.update({id}, updateHotelFeatureDto);
+    return await this.hotelFeatureRepo.update(hotelFeature, updateHotelFeatureDto);
   }
 
   async delete(id: number): Promise<DeleteResult> {
